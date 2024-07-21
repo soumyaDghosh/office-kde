@@ -1,0 +1,28 @@
+marknote:
+  git: https://invent.kde.org/office/marknote.git
+  version: 'v1.3.0'
+  arches:
+    - amd64
+  series: jammy
+  store:
+    edge: 
+      date: 2024-07-12
+      rev: 2
+    stable:
+      date: 2024-07-12
+      rev: 2
+blueprint-compiler:
+  git: https://gitlab.gnome.org/jwestman/blueprint-compiler.git
+  version: 'v0.10.0'
+  arches:
+    - amd64
+    - arm64
+    - armhf
+  series: noble
+  store:
+    edge: 
+      date: 2024-07-12
+      rev: 2
+    stable:
+      date: 2024-07-12
+      rev: 2

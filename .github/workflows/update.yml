@@ -1,0 +1,39 @@
+name: Update the snaps
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # every day
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  parse-db:
+    name: Parse database
+    runs-on: ubuntu-latest
+    outputs:
+        snaps: ${{ steps.parse-db.outputs.snap_names }}
+    steps:
+      - name: Parse database
+        id: parse-db
+        uses: soumyaDghosh/kde-snap-ci/parse-database@main
+
+  sync-version:
+    name: Sync version with latest release
+    needs: parse-db
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        snap: ${{ fromJSON(needs.parse-db.outputs.snaps) }}
+    steps:
+      - name: Sync version with latest release
+        uses: soumyaDghosh/kde-snap-ci/sync-version@main
+        with:
+          snap-name: ${{ matrix.snap }}
+          launchpad-token: ${{ secrets.LAUNCHPAD_TOKEN }}
+          launchpad-name: "soumyadghosh"
